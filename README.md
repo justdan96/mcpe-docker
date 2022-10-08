@@ -1,28 +1,31 @@
-# mcpe-docker Dockerfile
+# mcpe-docker Dockerfile and Justfile
 
-[Docker](http://docker.com) container to build [Minecraft on Linux](https://mcpelauncher.readthedocs.io/en/latest/getting_started.html).
+[Docker](http://docker.com) container to build [Minecraft on Linux](https://mcpelauncher.readthedocs.io/en/latest/getting_started.html). 
+
+The `justfile` can be used independently to compile mcpelauncher on your own machine.
 
 
 ## Usage
 
-### Install
+### Build Docker Container
 
 Or build `mcpe-docker` from source:
 ```
 docker build -t mcpe-docker . | tee build.log
 ```
 
-### Run
+### Build mcpelauncher Components
 
-This image is designed to build MCPE Launcher.
+There is a `justfile` included to help build components from source. To run this in the Docker container and print a list of targets run the below:
 
 ```
-docker run -it --rm -v $(pwd):/workdir -w="/workdir" mcpe-docker bash
+docker run -it --rm -v $(pwd):/workdir -w="/workdir" mcpe-docker just
 ```
 
-To copy the output files from the fully built container:
-```
-docker create -it --name copy mcpe-docker bash
-docker cp copy:/opt/output/ .
-docker rm -f copy
-```
+Otherwise just run `just` directly on your own machine.
+
+The typical targets you would want to run (in order) are:
+1. `just build-client`
+2. `sudo just install-client`
+3. `just build-ui`
+4. `sudo just install-ui`
