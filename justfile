@@ -69,16 +69,6 @@ deb-ui:
   --requires $(sort < deps.txt | uniq | paste -s -d,) --provides mcpelauncher-ui-qt --install=no --fstrans=yes
   cd ./mcpelauncher-ui/build && cp mcpelauncher-ui*.deb ../../mcpelauncher-ui.deb
 
-build-ui-justdan96:
-  git clone --branch qt6 --recursive https://github.com/minecraft-linux/mcpelauncher-ui-manifest.git mcpelauncher-ui
-  cd ./mcpelauncher-ui/mcpelauncher-ui-qt && git checkout qt6
-  cd ./mcpelauncher-ui/playdl-signin-ui-qt && git checkout qt6
-  mkdir -p ./mcpelauncher-ui/build
-  cd ./mcpelauncher-ui/build && cmake -DCMAKE_INSTALL_PREFIX=/opt/mcpe -DLAUNCHER_CHANGE_LOG="<p>Testing</p>" \
-  -DLAUNCHER_VERSIONDB_URL=https://raw.githubusercontent.com/minecraft-linux/mcpelauncher-versiondb/master \
-  -DCMAKE_BUILD_TYPE=Release -DQT_VERSION=6 ..
-  cd ./mcpelauncher-ui/build && make -j $(nproc --ignore=2)
-
 build-extractor:
   git clone https://github.com/minecraft-linux/mcpelauncher-extract.git -b ng
   mkdir -p ./mcpelauncher-extract/build
